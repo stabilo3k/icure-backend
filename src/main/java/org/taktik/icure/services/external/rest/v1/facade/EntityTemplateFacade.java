@@ -154,7 +154,14 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			return Response.status(400).type("text/plain").entity("The search string is required and must contain at least 3 characters").build();
 		}
 
-		PaginationOffset<ComplexKey> paginationOffset = startKey == null ? null : new PaginationOffset<>(ComplexKey.of((Object[])(startKey.split(","))), startDocumentId, 0, limit);
+		PaginationOffset<ComplexKey> paginationOffset;
+
+		if(startKey != null){
+			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(startKey.split(","))), startDocumentId, 0, limit);
+		} else {
+			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(new Object[]{subType, searchString})), startDocumentId, 0, limit);
+		}
+
 
 		PaginatedList<EntityTemplate> entityTemplatesList = entityTemplateLogic.findBySubTypeDescrCompound(subType, searchString, paginationOffset);
 
