@@ -142,8 +142,9 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			notes = "The searchString parameter is required and must contains at least 3 chars"
 	)
 	@GET
-	@Path("/findSubType/{subType}")
+	@Path("/findSubType/{type}/{subType}")
 	public Response findBySubTypeDescrCompound(
+			@PathParam(value = "type") String type,
 			@PathParam(value = "subType") String subType,
 			@ApiParam(value = "searchString", required = true) @QueryParam("searchString") String searchString,
 			@ApiParam(value = "The start key for pagination in format '<subtype>,<searchString>") @QueryParam("startKey") String startKey,
@@ -171,7 +172,7 @@ public class EntityTemplateFacade implements OpenApiFacade{
 		pageDto.setRows(dtoList);
 		pageDto.setTotalSize(page.getTotalSize());
 
-		return Response.ok().entity(mapper.map(pageDto, EntityTemplatePaginatedList.class)).build();
+		return Response.ok().entity(mapper.map(page, EntityTemplatePaginatedList.class)).build();
 	}
 
 
