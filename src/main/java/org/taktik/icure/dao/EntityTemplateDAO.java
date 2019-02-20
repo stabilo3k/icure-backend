@@ -20,14 +20,17 @@ package org.taktik.icure.dao;
 
 import java.util.List;
 
+import org.ektorp.ComplexKey;
 import org.ektorp.support.View;
+import org.taktik.icure.db.PaginatedList;
+import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.entities.EntityTemplate;
 
 public interface EntityTemplateDAO extends GenericDAO<EntityTemplate> {
 
-	@View(name = "by_user_type_descr", map = "classpath:js/patient/By_hcparty_contains_name_map.js")
 	List<EntityTemplate> getByUserIdTypeDescr(String userId, String type, String searchString, Boolean includeEntities);
 
-	@View(name = "by_type_descr", map = "classpath:js/patient/By_hcparty_contains_name_map.js")
 	List<EntityTemplate> getByTypeDescr(String type, String searchString, Boolean includeEntities);
+
+	PaginatedList<EntityTemplate> getBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset);
 }

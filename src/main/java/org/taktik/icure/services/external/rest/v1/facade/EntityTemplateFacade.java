@@ -36,14 +36,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import ma.glasnost.orika.MapperFacade;
+import org.ektorp.ComplexKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.taktik.icure.db.PaginatedList;
+import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.entities.EntityTemplate;
 import org.taktik.icure.logic.EntityTemplateLogic;
 import org.taktik.icure.services.external.rest.v1.dto.EntityTemplateDto;
+import org.taktik.icure.services.external.rest.v1.dto.EntityTemplatePaginatedList;
 import org.taktik.icure.utils.ResponseUtils;
 
 @Component
@@ -130,6 +134,33 @@ public class EntityTemplateFacade implements OpenApiFacade{
 
 		return response;
 	}
+
+	@ApiOperation(
+			value = "Find all medication templates by subtype matching a search string (which looks inside the description and the possible compoundPrescription",
+			response = EntityTemplatePaginatedList.class,
+			httpMethod = "GET",
+			notes = "The searchString parameter is required and must contains at least 3 chars"
+	)
+	@GET
+	@Path("/findSubType/{subType}")
+	public Response findBySubTypeDescrCompound(
+			@PathParam(value = "subType") String subType,
+			@ApiParam(value = "searchString", required = true) @QueryParam("searchString") String searchString,
+			@ApiParam(value = "The start key for pagination in format '<subtype>,<searchString>") @QueryParam("startKey") String startKey,
+			@ApiParam(value = "An EntityTemplate document ID") @QueryParam("startDocumentId") String startDocumentId,
+			@ApiParam(value = "Number of rows") @QueryParam("limit") Integer limit) {
+
+		if(searchString.length() < 3){
+			return Response.status(400).type("text/plain").entity("The search string must contain at least 3 characters").build();
+		}
+
+		PaginationOffset<ComplexKey> paginationOffset = startKey == null ? null : new PaginationOffset<>(ComplexKey.of((Object[])(startKey.split(","))), startDocumentId, 0, limit);
+
+		PaginatedList<EntityTemplate> entityTemplatesList = entityTemplateLogic.findBySubTypeDescrCompound(subType, searchString, paginationOffset);
+
+		return Response.ok().entity(mapper.map(entityTemplatesList, EntityTemplatePaginatedList.class)).build();
+	}
+
 
 	@ApiOperation(
 			value = "Create a EntityTemplate",

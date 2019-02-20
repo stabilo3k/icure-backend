@@ -21,6 +21,9 @@ package org.taktik.icure.logic;
 import java.util.Collection;
 import java.util.List;
 
+import org.ektorp.ComplexKey;
+import org.taktik.icure.db.PaginatedList;
+import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.entities.EntityTemplate;
 
 public interface EntityTemplateLogic extends EntityPersister<EntityTemplate, String> {
@@ -35,4 +38,6 @@ public interface EntityTemplateLogic extends EntityPersister<EntityTemplate, Str
 	List<EntityTemplate> findEntityTemplates(String userId, String entityType, String searchString, Boolean includeEntities);
 
 	List<EntityTemplate> findAllEntityTemplates(String entityType, String searchString, Boolean includeEntities);
+
+	PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset);
 }

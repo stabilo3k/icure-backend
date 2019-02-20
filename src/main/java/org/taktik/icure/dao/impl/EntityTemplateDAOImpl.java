@@ -34,6 +34,8 @@ import org.springframework.stereotype.Repository;
 import org.taktik.icure.dao.EntityTemplateDAO;
 import org.taktik.icure.dao.impl.ektorp.CouchDbICureConnector;
 import org.taktik.icure.dao.impl.idgenerators.IDGenerator;
+import org.taktik.icure.db.PaginatedList;
+import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.db.StringUtils;
 import org.taktik.icure.entities.EntityTemplate;
 
@@ -75,6 +77,15 @@ public class EntityTemplateDAOImpl extends CachedDAOImpl<EntityTemplate> impleme
 				.compare(a.getEntityType(),b.getEntityType())
 				.compare(a.getDescr(),b.getDescr())
 				.compare(a.getId(),b.getId()).result()).collect(Collectors.toList());
+	}
+
+	@Override
+	@View(name="by_subtype_descr_compound", map = "classpath:js/entitytemplate/By_subtype_descr_compound.js")
+	public PaginatedList<EntityTemplate> getBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
+		String descr = (searchString!=null)? StringUtils.sanitizeString(searchString):null;
+		ComplexKey startKey = paginationOffset == null || paginationOffset.getStartKey() == null ? ComplexKey.of(subType, searchString) : paginationOffset.getStartKey();
+		ComplexKey endKey = ComplexKey.of(subType, (descr != null ? descr : "") + "\ufff0");
+		return pagedQueryView("by_subtype_descr_compound", startKey, endKey, paginationOffset, false);
 	}
 
 }

@@ -18,8 +18,11 @@
 
 package org.taktik.icure.logic.impl;
 
+import org.ektorp.ComplexKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.taktik.icure.dao.EntityTemplateDAO;
+import org.taktik.icure.db.PaginatedList;
+import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.entities.EntityTemplate;
 import org.taktik.icure.entities.base.StoredDocument;
 import org.taktik.icure.logic.EntityTemplateLogic;
@@ -127,5 +130,10 @@ public class EntityTemplateLogicImpl implements EntityTemplateLogic {
 	@Override
 	public List<EntityTemplate> findAllEntityTemplates(String entityType, String searchString, Boolean includeEntities) {
 		return entityTemplateDAO.getByTypeDescr(entityType,searchString,includeEntities);
+	}
+
+	@Override
+	public PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
+		return entityTemplateDAO.getBySubTypeDescrCompound(subType, searchString, paginationOffset);
 	}
 }
