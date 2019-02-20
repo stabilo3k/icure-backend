@@ -39,5 +39,5 @@ public interface EntityTemplateLogic extends EntityPersister<EntityTemplate, Str
 
 	List<EntityTemplate> findAllEntityTemplates(String entityType, String searchString, Boolean includeEntities);
 
-	PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset);
+	PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String type, String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset);
 }

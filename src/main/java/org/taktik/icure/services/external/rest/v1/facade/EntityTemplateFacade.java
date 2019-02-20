@@ -163,7 +163,7 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(new Object[]{subType, searchString})), startDocumentId, 0, limit);
 		}
 
-		PaginatedList<EntityTemplate> page = entityTemplateLogic.findBySubTypeDescrCompound(subType, searchString, paginationOffset);
+		PaginatedList<EntityTemplate> page = entityTemplateLogic.findBySubTypeDescrCompound(type, subType, searchString, paginationOffset);
 		List<EntityTemplate> entityTemplatesList = page.getRows();
 		List<EntityTemplateDto> dtoList = entityTemplatesList.stream().map(el -> mapper.map(el, EntityTemplateDto.class)).collect(Collectors.toList());
 		PaginatedList<EntityTemplateDto> pageDto = new PaginatedList<>();

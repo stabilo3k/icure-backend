@@ -133,7 +133,7 @@ public class EntityTemplateLogicImpl implements EntityTemplateLogic {
 	}
 
 	@Override
-	public PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
-		return entityTemplateDAO.getBySubTypeDescrCompound(subType, searchString, paginationOffset);
+	public PaginatedList<EntityTemplate> findBySubTypeDescrCompound(String type, String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
+		return entityTemplateDAO.getBySubTypeDescrCompound(type, subType, searchString, paginationOffset);
 	}
 }

@@ -81,10 +81,10 @@ public class EntityTemplateDAOImpl extends CachedDAOImpl<EntityTemplate> impleme
 
 	@Override
 	@View(name="by_subtype_descr_compound", map = "classpath:js/entitytemplate/By_subtype_descr_compound.js")
-	public PaginatedList<EntityTemplate> getBySubTypeDescrCompound(String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
+	public PaginatedList<EntityTemplate> getBySubTypeDescrCompound(String type, String subType, String searchString, PaginationOffset<ComplexKey> paginationOffset) {
 		String descr = (searchString!=null)? StringUtils.sanitizeString(searchString):null;
-		ComplexKey startKey = paginationOffset == null || paginationOffset.getStartKey() == null ? ComplexKey.of(subType, searchString) : paginationOffset.getStartKey();
-		ComplexKey endKey = ComplexKey.of(subType, (descr != null ? descr : "") + "\ufff0");
+		ComplexKey startKey = paginationOffset == null || paginationOffset.getStartKey() == null ? ComplexKey.of(type, subType, searchString) : paginationOffset.getStartKey();
+		ComplexKey endKey = ComplexKey.of(type, subType, (descr != null ? descr : "") + "\ufff0");
 		return pagedQueryView("by_subtype_descr_compound", startKey, endKey, paginationOffset, false);
 	}
 
