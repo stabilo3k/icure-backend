@@ -175,9 +175,14 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			}
 
 			return dto;
-		}).collect(Collectors.toList());
+		}).distinct().collect(Collectors.toList());
 
 		paginatedList.setRows(dtoRows);
+
+		// To respect the pagination engine, let adapt the pageSize
+		if(page.getRows().size() == paginatedList.getPageSize()){ // The query completed the page
+			paginatedList.setPageSize(dtoRows.size());
+		} // else, we have to let the pageSize larger than the real result to mark the end of pagination
 
 		return Response.ok().entity(paginatedList).build();
 	}

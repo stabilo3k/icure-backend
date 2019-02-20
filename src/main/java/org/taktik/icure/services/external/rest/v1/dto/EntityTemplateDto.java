@@ -21,6 +21,7 @@ package org.taktik.icure.services.external.rest.v1.dto;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class EntityTemplateDto extends StoredDto implements Serializable {
 	String userId;
@@ -74,5 +75,23 @@ public class EntityTemplateDto extends StoredDto implements Serializable {
 
 	public void setDefaultTemplate(Boolean defaultTemplate) {
 		this.defaultTemplate = defaultTemplate;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof EntityTemplateDto)) return false;
+		if (!super.equals(o)) return false;
+		EntityTemplateDto that = (EntityTemplateDto) o;
+		return getUserId().equals(that.getUserId()) &&
+				getDescr().equals(that.getDescr()) &&
+				getEntityType().equals(that.getEntityType()) &&
+				Objects.equals(defaultTemplate, that.defaultTemplate) &&
+				getSubType().equals(that.getSubType());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), getUserId(), getDescr(), getEntityType(), defaultTemplate, getSubType());
 	}
 }
