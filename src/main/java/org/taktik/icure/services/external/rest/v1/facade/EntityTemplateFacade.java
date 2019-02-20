@@ -146,22 +146,21 @@ public class EntityTemplateFacade implements OpenApiFacade{
 	public Response findBySubTypeDescrCompound(
 			@PathParam(value = "type") String type,
 			@PathParam(value = "subType") String subType,
-			@ApiParam(value = "searchString", required = true) @QueryParam("searchString") String searchString,
-			@ApiParam(value = "includeEntities", required = false) @QueryParam("includeEntities") Boolean includeEntities,
+			@ApiParam(value = "searchString") @QueryParam("searchString") String searchString,
+			@ApiParam(value = "includeEntities") @QueryParam("includeEntities") Boolean includeEntities,
 			@ApiParam(value = "The start key for pagination in format '<subtype>,<searchString>") @QueryParam("startKey") String startKey,
 			@ApiParam(value = "An EntityTemplate document ID") @QueryParam("startDocumentId") String startDocumentId,
 			@ApiParam(value = "Number of rows") @QueryParam("limit") Integer limit) {
 
-		if(searchString == null || searchString.length() < 3){
-			return Response.status(400).type("text/plain").entity("The search string is required and must contain at least 3 characters").build();
-		}
 
 		PaginationOffset<ComplexKey> paginationOffset;
 
 		if(startKey != null){
 			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(startKey.split(","))), startDocumentId, 0, limit);
-		} else {
+		} else if(searchString != null) {
 			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(new Object[]{subType, searchString})), startDocumentId, 0, limit);
+		} else {
+			paginationOffset = new PaginationOffset<>(ComplexKey.of((Object[])(new Object[]{subType})), startDocumentId, 0, limit);
 		}
 
 		PaginatedList<EntityTemplate> page = entityTemplateLogic.findBySubTypeDescrCompound(type, subType, searchString, paginationOffset);

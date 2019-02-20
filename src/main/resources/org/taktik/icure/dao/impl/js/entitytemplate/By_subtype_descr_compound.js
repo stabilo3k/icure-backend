@@ -35,7 +35,7 @@ map = function (doc) {
     var summary = {'_id':doc._id,'_rev':doc._rev,'java_type':doc.java_type,'descr':doc.descr,'entityType':doc.entityType,'userId':doc.userId,'defaultTemplate':doc.defaultTemplate};
     for(var i = 0; i < words.length; i++) {
       if(words[i].length > 2){
-        emit([doc.type, doc.subType, words[i]], summary)
+        emit([doc.entityType, doc.subType, words[i]], summary)
       }
     }
   }
