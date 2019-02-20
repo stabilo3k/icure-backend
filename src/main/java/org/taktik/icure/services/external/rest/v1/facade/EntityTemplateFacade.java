@@ -147,6 +147,7 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			@PathParam(value = "type") String type,
 			@PathParam(value = "subType") String subType,
 			@ApiParam(value = "searchString", required = true) @QueryParam("searchString") String searchString,
+			@ApiParam(value = "includeEntities", required = false) @QueryParam("includeEntities") Boolean includeEntities,
 			@ApiParam(value = "The start key for pagination in format '<subtype>,<searchString>") @QueryParam("startKey") String startKey,
 			@ApiParam(value = "An EntityTemplate document ID") @QueryParam("startDocumentId") String startDocumentId,
 			@ApiParam(value = "Number of rows") @QueryParam("limit") Integer limit) {
@@ -164,15 +165,22 @@ public class EntityTemplateFacade implements OpenApiFacade{
 		}
 
 		PaginatedList<EntityTemplate> page = entityTemplateLogic.findBySubTypeDescrCompound(type, subType, searchString, paginationOffset);
-		List<EntityTemplate> entityTemplatesList = page.getRows();
-		List<EntityTemplateDto> dtoList = entityTemplatesList.stream().map(el -> mapper.map(el, EntityTemplateDto.class)).collect(Collectors.toList());
-		PaginatedList<EntityTemplateDto> pageDto = new PaginatedList<>();
-		pageDto.setNextKeyPair(page.getNextKeyPair());
-		pageDto.setPageSize(page.getPageSize());
-		pageDto.setRows(dtoList);
-		pageDto.setTotalSize(page.getTotalSize());
+		EntityTemplatePaginatedList paginatedList = mapper.map(page, EntityTemplatePaginatedList.class);
 
-		return Response.ok().entity(mapper.map(page, EntityTemplatePaginatedList.class)).build();
+		List<EntityTemplate> etRows = page.getRows();
+		List<EntityTemplateDto> dtoRows = etRows.stream().map(e -> {
+			EntityTemplateDto dto = mapper.map(e, EntityTemplateDto.class);
+
+			if (includeEntities != null && includeEntities) {
+				dto.setEntity(e.getEntity());
+			}
+
+			return dto;
+		}).collect(Collectors.toList());
+
+		paginatedList.setRows(dtoRows);
+
+		return Response.ok().entity(paginatedList).build();
 	}
 
 
