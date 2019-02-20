@@ -150,8 +150,8 @@ public class EntityTemplateFacade implements OpenApiFacade{
 			@ApiParam(value = "An EntityTemplate document ID") @QueryParam("startDocumentId") String startDocumentId,
 			@ApiParam(value = "Number of rows") @QueryParam("limit") Integer limit) {
 
-		if(searchString.length() < 3){
-			return Response.status(400).type("text/plain").entity("The search string must contain at least 3 characters").build();
+		if(searchString == null || searchString.length() < 3){
+			return Response.status(400).type("text/plain").entity("The search string is required and must contain at least 3 characters").build();
 		}
 
 		PaginationOffset<ComplexKey> paginationOffset = startKey == null ? null : new PaginationOffset<>(ComplexKey.of((Object[])(startKey.split(","))), startDocumentId, 0, limit);
