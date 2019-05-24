@@ -132,8 +132,9 @@ public abstract class GenericDAOImpl<T extends StoredDocument> extends CouchDbIC
 		if (log.isDebugEnabled()) {
 			log.debug(entityClass.getSimpleName() + ".get: " + id + " [" + ArrayUtils.toString(options) + "]");
 		}
+		
 		try {
-			T result = super.get(id, asEktorpOptions(options));
+			T result = super.get(id, asEktorpOptions(options).includeConflicts());
 
 			postLoad(result);
 

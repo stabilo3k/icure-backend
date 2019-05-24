@@ -26,6 +26,7 @@ import org.taktik.icure.services.external.rest.v1.dto.base.Identifiable;
 public abstract class StoredDto implements Identifiable<String>,Serializable {
 	String id;
     String rev;
+    String[] conflicts;
     Long deletionDate;
 
     public String getId() {
@@ -42,6 +43,14 @@ public abstract class StoredDto implements Identifiable<String>,Serializable {
 
     public void setRev(String rev) {
         this.rev = rev;
+    }
+
+    public String[] getConflicts() {
+        return conflicts;
+    }
+
+    public void setConflicts(String[] conflicts) {
+        this.conflicts = conflicts;
     }
 
     public Long getDeletionDate() {
