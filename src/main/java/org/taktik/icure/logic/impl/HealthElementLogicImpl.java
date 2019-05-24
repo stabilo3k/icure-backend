@@ -25,14 +25,12 @@ import org.taktik.icure.dao.HealthElementDAO;
 import org.taktik.icure.dao.Option;
 import org.taktik.icure.dao.impl.idgenerators.UUIDGenerator;
 import org.taktik.icure.entities.HealthElement;
-import org.taktik.icure.entities.Patient;
 import org.taktik.icure.entities.embed.Delegation;
 import org.taktik.icure.logic.HealthElementLogic;
 import org.taktik.icure.logic.ICureSessionLogic;
 import org.taktik.icure.utils.FuzzyValues;
 import org.taktik.icure.validation.aspect.Check;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -150,8 +148,9 @@ public class HealthElementLogicImpl extends GenericLogicImpl<HealthElement, Heal
 	}
 
 	@Override
-	public void solveConflicts() {
-		List<HealthElement> healthElementsInConflict = healthElementDAO.listConflicts().stream().map(it -> healthElementDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList());
+	public void solveConflicts(List<String> ids) {
+		List<HealthElement> healthElementsInConflict = ids == null ? healthElementDAO.listConflicts().stream().map(it -> healthElementDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> healthElementDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
+
 		healthElementsInConflict.forEach(p-> {
 			Arrays.stream(p.getConflicts()).map(c->healthElementDAO.get(p.getId(),c)).forEach(cp -> {
 				p.solveConflictWith(cp);

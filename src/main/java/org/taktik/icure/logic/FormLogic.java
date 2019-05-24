@@ -48,5 +48,5 @@ public interface FormLogic extends EntityPersister<Form, String> {
 
 	Form addDelegations(String formId, List<Delegation> delegations);
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 }

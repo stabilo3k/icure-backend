@@ -35,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.taktik.icure.dao.FormDAO;
 import org.taktik.icure.dao.Option;
 import org.taktik.icure.dao.impl.idgenerators.UUIDGenerator;
-import org.taktik.icure.entities.Contact;
 import org.taktik.icure.entities.Form;
 import org.taktik.icure.entities.embed.Delegation;
 import org.taktik.icure.exceptions.MissingRequirementsException;
@@ -166,8 +165,8 @@ public class FormLogicImpl extends GenericLogicImpl<Form, FormDAO> implements Fo
 	}
 
 	@Override
-	public void solveConflicts() {
-		List<Form> formsInConflict = formDAO.listConflicts().stream().map(it -> formDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList());
+	public void solveConflicts(List<String> ids) {
+		List<Form> formsInConflict = ids == null ? formDAO.listConflicts().stream().map(it -> formDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> formDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
 
 		formsInConflict.forEach(form -> {
 			Arrays.stream(form.getConflicts()).map(c -> formDAO.get(form.getId(), c)).forEach(cp -> {

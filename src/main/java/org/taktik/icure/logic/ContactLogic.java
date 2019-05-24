@@ -74,5 +74,5 @@ public interface ContactLogic extends EntityPersister<Contact, String> {
 	PaginatedList<Contact> listContactsByOpeningDate(String hcPartyId, Long startOpeningDate, Long endOpeningDate, PaginationOffset offset);
 
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 }

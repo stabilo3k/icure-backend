@@ -26,10 +26,8 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.common.base.Strings;
-import org.ektorp.ComplexKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +37,6 @@ import org.taktik.icure.dao.Option;
 import org.taktik.icure.db.PaginatedList;
 import org.taktik.icure.db.PaginationOffset;
 import org.taktik.icure.dto.data.LabelledOccurence;
-import org.taktik.icure.entities.Form;
 import org.taktik.icure.entities.Insurance;
 import org.taktik.icure.entities.Invoice;
 import org.taktik.icure.entities.Patient;
@@ -284,8 +281,8 @@ public class InvoiceLogicImpl extends GenericLogicImpl<Invoice, InvoiceDAO> impl
 	}
 
 	@Override
-	public void solveConflicts() {
-		List<Invoice> invoicesInConflict = invoiceDAO.listConflicts().stream().map(it -> invoiceDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList());
+	public void solveConflicts(List<String> ids) {
+		List<Invoice> invoicesInConflict = ids == null ? invoiceDAO.listConflicts().stream().map(it -> invoiceDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> invoiceDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
 
 		invoicesInConflict.forEach(iv -> {
 			Arrays.stream(iv.getConflicts()).map(c -> invoiceDAO.get(iv.getId(), c)).forEach(cp -> {

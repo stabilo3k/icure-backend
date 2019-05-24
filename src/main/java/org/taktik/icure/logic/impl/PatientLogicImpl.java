@@ -543,8 +543,9 @@ public class PatientLogicImpl extends GenericLogicImpl<Patient, PatientDAO> impl
 	}
 
 	@Override
-	public void solveConflicts() {
-		List<Patient> patientsInConflict = patientDAO.listConflicts().stream().map(it -> patientDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList());
+	public void solveConflicts(List<String> ids) {
+		List<Patient> patientsInConflict = ids == null ? patientDAO.listConflicts().stream().map(it -> patientDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> patientDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
+
 		patientsInConflict.forEach(p-> {
 			Arrays.stream(p.getConflicts()).map(c->patientDAO.get(p.getId(),c)).forEach(cp -> {
 				p.solveConflictWith(cp);

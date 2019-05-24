@@ -52,7 +52,7 @@ class CouchDbICureRepositorySupport<T extends StoredDocument> extends CouchDbRep
 
 	@SuppressWarnings("unchecked")
 	public CouchDbICureRepositorySupport(Class clazz, CouchDbICureConnector db) {
-		super(clazz, db);
+		 super(clazz, db);
 	}
 
 	@Override

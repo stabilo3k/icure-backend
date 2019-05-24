@@ -45,5 +45,5 @@ public interface HealthElementLogic extends EntityPersister<HealthElement, Strin
 
 	HealthElement addDelegations(String healthElementId, List<Delegation> delegations);
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 }

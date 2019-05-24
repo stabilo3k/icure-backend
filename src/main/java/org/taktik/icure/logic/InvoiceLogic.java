@@ -73,7 +73,7 @@ public interface InvoiceLogic {
 
 	List<LabelledOccurence> getTarificationsCodesOccurences(String hcPartyId, long minOccurences);
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 
 
 

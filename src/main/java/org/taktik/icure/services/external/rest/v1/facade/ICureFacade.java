@@ -209,22 +209,22 @@ public class ICureFacade implements OpenApiFacade{
 	}
 
 	@POST @Path("/conflicts/patient")
-	public Response resolvePatientsConflicts() throws Exception { patientLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolvePatientsConflicts(@QueryParam("ids") String ids) throws Exception { patientLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/contact")
-	public Response resolveContactsConflicts() throws Exception { contactLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolveContactsConflicts(@QueryParam("ids") String ids) throws Exception { contactLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/form")
-	public Response resolveFormsConflicts() throws Exception { formLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolveFormsConflicts(@QueryParam("ids") String ids) throws Exception { formLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/healthelement")
-	public Response resolveHealthElementsConflicts() throws Exception { healthElementLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolveHealthElementsConflicts(@QueryParam("ids") String ids) throws Exception { healthElementLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/invoice")
-	public Response resolveInvoicesConflicts() throws Exception { invoiceLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolveInvoicesConflicts(@QueryParam("ids") String ids) throws Exception { invoiceLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/message")
-	public Response resolveMessagesConflicts() throws Exception { messageLogic.solveConflicts(); return Response.ok().build(); }
+	public Response resolveMessagesConflicts(@QueryParam("ids") String ids) throws Exception { messageLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }
 
 	@POST @Path("/conflicts/document")
 	public Response resolveDocumentsConflicts(@QueryParam("ids") String ids) throws Exception { documentLogic.solveConflicts(ids != null ? Arrays.asList(ids.split(",")) : null); return Response.ok().build(); }

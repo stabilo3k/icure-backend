@@ -117,7 +117,7 @@ public interface PatientLogic extends EntityPersister<Patient, String> {
 
 	Patient getByExternalId(String externalId);
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 
 	PaginatedList<Patient> listOfPatientsModifiedAfter(Long date, Long startKey, String startDocumentId, Integer limit);
 }

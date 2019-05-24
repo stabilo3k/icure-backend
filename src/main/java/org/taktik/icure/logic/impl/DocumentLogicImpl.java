@@ -22,28 +22,20 @@ import org.ektorp.UpdateConflictException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.taktik.icure.dao.DocumentDAO;
 import org.taktik.icure.dao.Option;
-import org.taktik.icure.entities.Contact;
 import org.taktik.icure.entities.Document;
 import org.taktik.icure.exceptions.CreationException;
 import org.taktik.icure.logic.DocumentLogic;
-import org.taktik.icure.services.external.rest.v1.dto.EMailDocumentDto;
 import org.taktik.icure.validation.aspect.Check;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.validation.constraints.NotNull;
 
 @Service
@@ -134,6 +126,7 @@ public class DocumentLogicImpl extends GenericLogicImpl<Document, DocumentDAO> i
 	@Override
 	public void solveConflicts(List<String> ids) {
 		List<Document> documentsInConflict = ids == null ? documentDAO.listConflicts().stream().map(it -> documentDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> documentDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
+
 		documentsInConflict.forEach(doc -> {
 			if (doc != null && doc.getConflicts() != null) {
 				List<Document> conflicted = Arrays.stream(doc.getConflicts()).map(c -> documentDAO.get(doc.getId(), c)).collect(Collectors.toList());

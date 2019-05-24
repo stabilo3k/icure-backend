@@ -21,7 +21,6 @@ package org.taktik.icure.logic.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.taktik.icure.dao.DocumentDAO;
 import org.taktik.icure.dao.MessageDAO;
@@ -197,8 +196,8 @@ public class MessageLogicImpl extends GenericLogicImpl<Message, MessageDAO> impl
 	}
 
 	@Override
-	public void solveConflicts() {
-		List<Message> messagesInConflict = messageDAO.listConflicts().stream().map(it -> messageDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList());
+	public void solveConflicts(List<String> ids) {
+		List<Message> messagesInConflict = ids == null ? messageDAO.listConflicts().stream().map(it -> messageDAO.get(it.getId(), Option.CONFLICTS)).collect(Collectors.toList()) : ids.stream().map(it -> messageDAO.get(it, Option.CONFLICTS)).collect(Collectors.toList());
 
 		messagesInConflict.forEach(msg -> {
 			Arrays.stream(msg.getConflicts()).map(c -> messageDAO.get(msg.getId(), c)).forEach(cp -> {

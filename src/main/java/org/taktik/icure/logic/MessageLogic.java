@@ -71,6 +71,6 @@ public interface MessageLogic extends EntityPersister<Message, String> {
 
 	List<Message> listMessagesByExternalRefs(String hcPartyId, List<String> externalRefs);
 
-	void solveConflicts();
+	void solveConflicts(List<String> ids);
 
 }
