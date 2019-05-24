@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.taktik.icure.logic.HealthcarePartyLogic;
 import org.taktik.icure.logic.ICureSessionLogic;
 import org.taktik.icure.logic.SessionLogic;
+import org.taktik.icure.logic.UserLogic;
 import org.taktik.icure.services.external.rest.v1.dto.AuthenticationResponse;
 import org.taktik.icure.services.external.rest.v1.dto.LoginCredentials;
 import org.taktik.icure.utils.ResponseUtils;
@@ -52,6 +53,7 @@ public final class LoginFacade implements OpenApiFacade{
 
 	private MapperFacade mapper;
 	private ICureSessionLogic sessionLogic;
+	private UserLogic userLogic;
 	private HealthcarePartyLogic healthcarePartyLogic;
 
     @Path("/login")
@@ -65,7 +67,7 @@ public final class LoginFacade implements OpenApiFacade{
     public Response login(LoginCredentials loginInfo) throws LoginException {
 	    AuthenticationResponse response = new AuthenticationResponse();
 	    SessionLogic.SessionContext sessionContext = sessionLogic.login(loginInfo.getUsername(), loginInfo.getPassword());
-	    response.setSuccessful((sessionContext != null && sessionContext.isAuthenticated()));
+	    response.setSuccessful((sessionContext != null && sessionContext.isAuthenticated()) && userLogic.isUserActive(sessionContext.getUserId()));
 	    if (response.isSuccessful()) {
 		    response.setHealthcarePartyId(sessionLogic.getCurrentHealthcarePartyId());
 		    response.setUsername(loginInfo.getUsername());
@@ -121,5 +123,10 @@ public final class LoginFacade implements OpenApiFacade{
 	@Context
 	public void setHealthcarePartyLogic(HealthcarePartyLogic healthcarePartyLogic) {
 		this.healthcarePartyLogic = healthcarePartyLogic;
+	}
+
+	@Context
+	public void setUserLogic(UserLogic userLogic) {
+		this.userLogic = userLogic;
 	}
 }
