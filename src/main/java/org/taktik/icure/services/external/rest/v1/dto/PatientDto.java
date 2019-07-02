@@ -69,6 +69,7 @@ public class PatientDto extends IcureDto implements EncryptableDto {
 	protected String warning;
     protected String nationality;
 	protected String preferredUserId;
+	protected Boolean isContactOnly;
 
     @ApiModelProperty(dataType = "string")
     protected byte[] picture;
@@ -406,6 +407,14 @@ public class PatientDto extends IcureDto implements EncryptableDto {
 
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
+    }
+
+    public Boolean getIsContactOnly() {
+        return isContactOnly;
+    }
+
+    public void setIsContactOnly(Boolean isContactOnly) {
+        this.isContactOnly = isContactOnly;
     }
 
     @Override

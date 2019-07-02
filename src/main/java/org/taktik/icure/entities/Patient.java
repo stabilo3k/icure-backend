@@ -78,6 +78,7 @@ public class Patient extends StoredICureDocument implements Person, Encryptable,
 	protected String nationality;
 
 	protected String preferredUserId;
+    protected Boolean isContactOnly;
 
     protected byte[] picture;
 
@@ -105,6 +106,10 @@ public class Patient extends StoredICureDocument implements Person, Encryptable,
     // the key encrypted using delegate's public key.
     protected Map<String, String[]> hcPartyKeys = new HashMap<String, String[]>();
     protected String publicKey;
+
+    public Boolean getIsContactOnly() { return isContactOnly; }
+
+    public void setIsContactOnly(Boolean contactOnly) { this.isContactOnly = contactOnly; }
 
     public @Nullable
 	String getMergeToPatientId() {

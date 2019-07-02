@@ -24,14 +24,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Partnership implements Serializable {
+
 	@JsonIgnore
 	private String partnershipDescription;
+	private String extraInfo;
     private PartnershipType type;
     private PartnershipStatus status;
 
@@ -94,4 +94,8 @@ public class Partnership implements Serializable {
 	public void setPartnershipDescription(String partnershipDescription) {
 		this.partnershipDescription = partnershipDescription;
 	}
+
+    public String getExtraInfo() { return extraInfo; }
+
+    public void setExtraInfo(String extraInfo) { this.extraInfo = extraInfo; }
 }

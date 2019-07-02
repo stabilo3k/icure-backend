@@ -20,6 +20,7 @@ package org.taktik.icure.services.external.rest.v1.dto.embed;
 
 public class PartnershipDto {
 	private String partnershipDescription;
+	private String extraInfo;
     private PartnershipTypeDto type;
     private PartnershipStatusDto status;
 
@@ -75,4 +76,8 @@ public class PartnershipDto {
 	public void setPartnershipDescription(String partnershipDescription) {
 		this.partnershipDescription = partnershipDescription;
 	}
+
+    public String getExtraInfo() { return extraInfo; }
+
+    public void setExtraInfo(String extraInfo) { this.extraInfo = extraInfo; }
 }
