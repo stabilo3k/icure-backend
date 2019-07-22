@@ -151,7 +151,7 @@ public class ContactLogicImpl extends GenericLogicImpl<Contact, ContactDAO> impl
 	}
 
 	@Override
-	public Contact modifyContact(@Check @NotNull Contact contact) throws MissingRequirementsException {
+	public Contact modifyContact(@Check @NotNull Contact contact) {
 		try {
 			return contactDAO.save(contact);
 		} catch (UpdateConflictException e) {

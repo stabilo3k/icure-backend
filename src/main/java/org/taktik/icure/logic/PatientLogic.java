@@ -119,5 +119,7 @@ public interface PatientLogic extends EntityPersister<Patient, String> {
 
 	void solveConflicts(List<String> ids);
 
+	Map<String, String> getHcPartyKeysForDelegate(String healthcarePartyId);
+
 	PaginatedList<Patient> listOfPatientsModifiedAfter(Long date, Long startKey, String startDocumentId, Integer limit);
 }
