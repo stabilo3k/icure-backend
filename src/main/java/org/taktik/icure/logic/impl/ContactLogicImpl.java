@@ -218,7 +218,10 @@ public class ContactLogicImpl extends GenericLogicImpl<Contact, ContactDAO> impl
 		return patientSecretForeignKeys == null ? contactDAO.listServiceIdsByCode(hcPartyId, codeType, codeCode, startValueDate, endValueDate) : contactDAO.findServicesByForeignKeys(hcPartyId, patientSecretForeignKeys, codeType, codeCode, startValueDate, endValueDate);
 	}
 
-    @Override
+    /**
+     * TODO: to uncomment after release of medispring-desktop 2.1.9
+     * */
+    /*@Override
     public List<String> listContactIdsByTag(String hcPartyId, String tagType, String tagCode, Long startValueDate, Long endValueDate) {
         return contactDAO.listContactIdsByTag(hcPartyId, tagType, tagCode, startValueDate, endValueDate);
     }
@@ -226,7 +229,7 @@ public class ContactLogicImpl extends GenericLogicImpl<Contact, ContactDAO> impl
     @Override
     public List<String> listContactIdsByCode(String hcPartyId, String codeType, String codeCode, Long startValueDate, Long endValueDate) {
         return contactDAO.listContactIdsByCode(hcPartyId, codeType, codeCode, startValueDate, endValueDate);
-    }
+    }*/
 
     @Override
     public List<String> listContactIds(String hcPartyId) {
