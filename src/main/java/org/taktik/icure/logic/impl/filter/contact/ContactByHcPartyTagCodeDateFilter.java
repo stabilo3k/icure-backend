@@ -53,6 +53,8 @@ public class ContactByHcPartyTagCodeDateFilter implements Filter<String, Contact
             String hcPartyId = filter.getHealthcarePartyId() != null ? filter.getHealthcarePartyId() : getLoggedHealthCarePartyId();
             HashSet<String> ids = null;
 
+            /**
+             * TODO: to inclu after release of medispring-desktop 2.1.9
             if (filter.getTagType() != null && filter.getTagCode() != null) {
                 ids = new HashSet<>(contactLogic.listContactIdsByTag(
                         hcPartyId,
@@ -67,6 +69,26 @@ public class ContactByHcPartyTagCodeDateFilter implements Filter<String, Contact
                         filter.getCodeType(),
                         filter.getCodeCode(),
 						filter.getStartOfContactOpeningDate(), filter.getEndOfContactOpeningDate());
+                if (ids==null) { ids = new HashSet<>(byCode); } else { ids.retainAll(byCode); }
+            }*/
+
+            /**
+             * TODO: to remove after release of medispring-desktop 2.1.9
+             */
+            if (filter.getTagType() != null && filter.getTagCode() != null) {
+                ids = new HashSet<>(contactLogic.listServiceIdsByTag(
+                        hcPartyId,
+                        null, filter.getTagType(),
+                        filter.getTagCode(),
+                        filter.getStartOfContactOpeningDate(), filter.getEndOfContactOpeningDate()));
+            }
+
+            if (filter.getCodeType() != null && filter.getCodeCode() != null) {
+                List<String> byCode = contactLogic.listServiceIdsByCode(
+                        hcPartyId,
+                        null, filter.getTagType(),
+                        filter.getTagCode(),
+                        filter.getStartOfContactOpeningDate(), filter.getEndOfContactOpeningDate());
                 if (ids==null) { ids = new HashSet<>(byCode); } else { ids.retainAll(byCode); }
             }
 

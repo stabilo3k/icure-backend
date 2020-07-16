@@ -219,6 +219,10 @@ public class ContactDAOImpl extends GenericIcureDAOImpl<Contact> implements Cont
         return ids;
     }
 
+/**
+ * TODO: to uncomment after release of medispring-desktop 2.1.9
+ * */
+    /*
     @Override
     @View(name = "by_hcparty_tag", map = "classpath:js/contact/By_hcparty_tag.js", reduce = "_count")
     public List<String> listContactIdsByTag(String hcPartyId, String tagType, String tagCode, Long startValueDate, Long endValueDate) {
@@ -272,7 +276,7 @@ public class ContactDAOImpl extends GenericIcureDAOImpl<Contact> implements Cont
 
         List<String> ids = db.queryView(viewQuery, String.class);
         return ids;    }
-
+*/
     @Override
 	public List<CouchKeyValue<Long>> listCodesFrequencies(String hcPartyId, String codeType) {
 		ComplexKey from = ComplexKey.of(

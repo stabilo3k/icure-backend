@@ -44,9 +44,13 @@ public interface ContactDAO extends GenericDAO<Contact> {
 
     List<String> listServiceIdsByCode(String hcPartyId, String codeType, String codeCode, Long startValueDate, Long endValueDate);
 
+/**
+ * TODO: to uncomment after release of medispring-desktop 2.1.9
+ * */
+    /*
     List<String> listContactIdsByTag(String hcPartyId, String tagType, String tagCode, Long startValueDate, Long endValueDate);
 
-    List<String> listContactIdsByCode(String hcPartyId, String codeType, String codeCode, Long startValueDate, Long endValueDate);
+    List<String> listContactIdsByCode(String hcPartyId, String codeType, String codeCode, Long startValueDate, Long endValueDate);*/
 
     List<CouchKeyValue<Long>> listCodesFrequencies(String hcPartyId, String codeType);
 
